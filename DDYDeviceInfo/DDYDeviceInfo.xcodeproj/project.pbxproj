@@ -14,6 +14,10 @@
 		A481C8FF20FF38B80052691B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C8FA20FF38B80052691B /* ViewController.m */; };
 		A481C90320FF3F640052691B /* DDYBatteryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C90220FF3F640052691B /* DDYBatteryInfo.m */; };
 		A481C90721001FD30052691B /* DDYSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C90621001FD30052691B /* DDYSystemInfo.m */; };
+		A481C94D210033A20052691B /* DDYTestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C94C210033A10052691B /* DDYTestViewController.m */; };
+		A481C950210036430052691B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A481C94F210036420052691B /* Security.framework */; };
+		A481C952210036480052691B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A481C951210036480052691B /* SystemConfiguration.framework */; };
+		A481C954210036FD0052691B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A481C953210036FD0052691B /* IOKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +33,37 @@
 		A481C90220FF3F640052691B /* DDYBatteryInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDYBatteryInfo.m; sourceTree = "<group>"; };
 		A481C90521001FD30052691B /* DDYSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDYSystemInfo.h; sourceTree = "<group>"; };
 		A481C90621001FD30052691B /* DDYSystemInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDYSystemInfo.m; sourceTree = "<group>"; };
+		A481C92F210033970052691B /* IOHIDDisplay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDDisplay.h; sourceTree = "<group>"; };
+		A481C930210033970052691B /* IOHIDEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEvent.h; sourceTree = "<group>"; };
+		A481C931210033970052691B /* IOHIDEventData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventData.h; sourceTree = "<group>"; };
+		A481C932210033970052691B /* IOHIDEventQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventQueue.h; sourceTree = "<group>"; };
+		A481C933210033970052691B /* IOHIDEventSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventSystem.h; sourceTree = "<group>"; };
+		A481C934210033970052691B /* IOHIDEventSystemClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventSystemClient.h; sourceTree = "<group>"; };
+		A481C935210033970052691B /* IOHIDEventTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDEventTypes.h; sourceTree = "<group>"; };
+		A481C936210033970052691B /* IOHIDNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDNotification.h; sourceTree = "<group>"; };
+		A481C937210033970052691B /* IOHIDService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDService.h; sourceTree = "<group>"; };
+		A481C938210033970052691B /* IOHIDSession.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDSession.h; sourceTree = "<group>"; };
+		A481C939210033970052691B /* IOHIDUserDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOHIDUserDevice.h; sourceTree = "<group>"; };
+		A481C93A210033970052691B /* IOKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKit.h; sourceTree = "<group>"; };
+		A481C93B210033970052691B /* IOKitKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitKeys.h; sourceTree = "<group>"; };
+		A481C93C210033970052691B /* IOKitLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOKitLib.h; sourceTree = "<group>"; };
+		A481C93D210033970052691B /* IOMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOMessage.h; sourceTree = "<group>"; };
+		A481C93E210033970052691B /* IOReturn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOReturn.h; sourceTree = "<group>"; };
+		A481C93F210033970052691B /* IOTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOTypes.h; sourceTree = "<group>"; };
+		A481C940210033970052691B /* OSKext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSKext.h; sourceTree = "<group>"; };
+		A481C941210033970052691B /* OSMessageNotification.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSMessageNotification.h; sourceTree = "<group>"; };
+		A481C943210033970052691B /* IOPowerSources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPowerSources.h; sourceTree = "<group>"; };
+		A481C944210033970052691B /* IOPSKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPSKeys.h; sourceTree = "<group>"; };
+		A481C945210033970052691B /* IOUPSPlugIn.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOUPSPlugIn.h; sourceTree = "<group>"; };
+		A481C947210033970052691B /* IOPM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPM.h; sourceTree = "<group>"; };
+		A481C948210033970052691B /* IOPMKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMKeys.h; sourceTree = "<group>"; };
+		A481C949210033970052691B /* IOPMLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMLib.h; sourceTree = "<group>"; };
+		A481C94A210033970052691B /* IOPMLibDefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IOPMLibDefs.h; sourceTree = "<group>"; };
+		A481C94B210033A10052691B /* DDYTestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDYTestViewController.h; sourceTree = "<group>"; };
+		A481C94C210033A10052691B /* DDYTestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDYTestViewController.m; sourceTree = "<group>"; };
+		A481C94F210036420052691B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		A481C951210036480052691B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		A481C953210036FD0052691B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOKit.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +71,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A481C952210036480052691B /* SystemConfiguration.framework in Frameworks */,
+				A481C950210036430052691B /* Security.framework in Frameworks */,
+				A481C954210036FD0052691B /* IOKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +85,7 @@
 			children = (
 				A481C8DE20FF37BC0052691B /* DDYDeviceInfo */,
 				A481C8DD20FF37BC0052691B /* Products */,
+				A481C94E210036420052691B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -61,6 +100,7 @@
 		A481C8DE20FF37BC0052691B /* DDYDeviceInfo */ = {
 			isa = PBXGroup;
 			children = (
+				A481C92C2100335D0052691B /* OtherWrite */,
 				A481C90421001FBC0052691B /* DDYSystemInfo */,
 				A481C90020FF38DC0052691B /* DDYBatteryInfo */,
 				A481C8F220FF38B80052691B /* System */,
@@ -98,6 +138,84 @@
 				A481C90621001FD30052691B /* DDYSystemInfo.m */,
 			);
 			path = DDYSystemInfo;
+			sourceTree = "<group>";
+		};
+		A481C92C2100335D0052691B /* OtherWrite */ = {
+			isa = PBXGroup;
+			children = (
+				A481C94B210033A10052691B /* DDYTestViewController.h */,
+				A481C94C210033A10052691B /* DDYTestViewController.m */,
+				A481C92D210033970052691B /* IOKit */,
+			);
+			name = OtherWrite;
+			path = "New Group";
+			sourceTree = "<group>";
+		};
+		A481C92D210033970052691B /* IOKit */ = {
+			isa = PBXGroup;
+			children = (
+				A481C953210036FD0052691B /* IOKit.framework */,
+				A481C92E210033970052691B /* hid */,
+				A481C93A210033970052691B /* IOKit.h */,
+				A481C93B210033970052691B /* IOKitKeys.h */,
+				A481C93C210033970052691B /* IOKitLib.h */,
+				A481C93D210033970052691B /* IOMessage.h */,
+				A481C93E210033970052691B /* IOReturn.h */,
+				A481C93F210033970052691B /* IOTypes.h */,
+				A481C940210033970052691B /* OSKext.h */,
+				A481C941210033970052691B /* OSMessageNotification.h */,
+				A481C942210033970052691B /* ps */,
+				A481C946210033970052691B /* pwr_mgt */,
+			);
+			path = IOKit;
+			sourceTree = "<group>";
+		};
+		A481C92E210033970052691B /* hid */ = {
+			isa = PBXGroup;
+			children = (
+				A481C92F210033970052691B /* IOHIDDisplay.h */,
+				A481C930210033970052691B /* IOHIDEvent.h */,
+				A481C931210033970052691B /* IOHIDEventData.h */,
+				A481C932210033970052691B /* IOHIDEventQueue.h */,
+				A481C933210033970052691B /* IOHIDEventSystem.h */,
+				A481C934210033970052691B /* IOHIDEventSystemClient.h */,
+				A481C935210033970052691B /* IOHIDEventTypes.h */,
+				A481C936210033970052691B /* IOHIDNotification.h */,
+				A481C937210033970052691B /* IOHIDService.h */,
+				A481C938210033970052691B /* IOHIDSession.h */,
+				A481C939210033970052691B /* IOHIDUserDevice.h */,
+			);
+			path = hid;
+			sourceTree = "<group>";
+		};
+		A481C942210033970052691B /* ps */ = {
+			isa = PBXGroup;
+			children = (
+				A481C943210033970052691B /* IOPowerSources.h */,
+				A481C944210033970052691B /* IOPSKeys.h */,
+				A481C945210033970052691B /* IOUPSPlugIn.h */,
+			);
+			path = ps;
+			sourceTree = "<group>";
+		};
+		A481C946210033970052691B /* pwr_mgt */ = {
+			isa = PBXGroup;
+			children = (
+				A481C947210033970052691B /* IOPM.h */,
+				A481C948210033970052691B /* IOPMKeys.h */,
+				A481C949210033970052691B /* IOPMLib.h */,
+				A481C94A210033970052691B /* IOPMLibDefs.h */,
+			);
+			path = pwr_mgt;
+			sourceTree = "<group>";
+		};
+		A481C94E210036420052691B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A481C951210036480052691B /* SystemConfiguration.framework */,
+				A481C94F210036420052691B /* Security.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -169,6 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A481C94D210033A20052691B /* DDYTestViewController.m in Sources */,
 				A481C8FF20FF38B80052691B /* ViewController.m in Sources */,
 				A481C90721001FD30052691B /* DDYSystemInfo.m in Sources */,
 				A481C8FE20FF38B80052691B /* main.m in Sources */,
@@ -304,18 +423,25 @@
 		A481C8F020FF37C40052691B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 23JJ7VRKJT;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DDYDeviceInfo/OtherWrite/PrivateAPI\\ ",
+					"$(PROJECT_DIR)/DDYDeviceInfo/New\\ Group/IOKit",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/DDYDeviceInfo/System/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				KEEP_PRIVATE_EXTERNS = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				ONLY_ACTIVE_ARCH = NO;
+				OTHER_LDFLAGS = "$(inherited) ";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartmesh.smart2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -325,18 +451,24 @@
 		A481C8F120FF37C40052691B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				CODE_SIGN_STYLE = Automatic;
+				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 23JJ7VRKJT;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/DDYDeviceInfo/OtherWrite/PrivateAPI\\ ",
+					"$(PROJECT_DIR)/DDYDeviceInfo/New\\ Group/IOKit",
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/DDYDeviceInfo/System/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				KEEP_PRIVATE_EXTERNS = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				OTHER_LDFLAGS = "$(inherited) ";
 				PRODUCT_BUNDLE_IDENTIFIER = com.smartmesh.smart2;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";

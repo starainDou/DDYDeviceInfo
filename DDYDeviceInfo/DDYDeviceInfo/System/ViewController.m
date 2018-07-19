@@ -1,6 +1,7 @@
 #import "ViewController.h"
 #import "DDYBatteryInfo.h"
 #import "DDYSystemInfo.h"
+#import "DDYTestViewController.h"
 
 @interface ViewController ()
 
@@ -65,6 +66,8 @@
     NSLog(@"%@", [DDYSystemInfo ddy_DeviceModel]);
     NSLog(@"iOS %@", [DDYSystemInfo ddy_SystemVersion]);
     NSLog(@"%@", [DDYSystemInfo ddy_JailBreak] ? @"是" : @"否");
+    
+    [self.navigationController pushViewController:[DDYTestViewController new] animated:YES];
 }
 
 @end
