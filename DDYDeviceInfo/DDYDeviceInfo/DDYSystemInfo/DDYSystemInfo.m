@@ -462,32 +462,32 @@
 }
 
 #pragma mark CPU频率
-+ (NSUInteger)cpuFrequency {
++ (NSUInteger)ddy_CPUFrequency {
     return [self getSysInfo:HW_CPU_FREQ];
 }
 
 #pragma mark 总线频率
-+ (NSUInteger)busFrequency {
++ (NSUInteger)ddy_BusFrequency {
     return [self getSysInfo:HW_TB_FREQ];
 }
 
 #pragma mark
-+ (NSUInteger)ramSize {
++ (NSUInteger)ddy_RamSize {
     return [self getSysInfo:HW_MEMSIZE];
 }
 
 #pragma mark
-+ (NSUInteger)cpuNumber {
++ (NSUInteger)ddy_CPUNumber {
     return [self getSysInfo:HW_NCPU];
 }
 
 #pragma mark
-+ (NSUInteger)totalMemory {
++ (NSUInteger)ddy_TotalMemory {
     return [self getSysInfo:HW_PHYSMEM];
 }
 
 #pragma mark 
-+ (NSUInteger)userMemory {
++ (NSUInteger)ddy_UserMemory {
     return [self getSysInfo:HW_USERMEM];
 }
 

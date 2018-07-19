@@ -55,16 +55,16 @@
 + (BOOL)ddy_IsViaProxy;
 
 /** CPU频率 */
-+ (NSUInteger)cpuFrequency;
++ (NSUInteger)ddy_CPUFrequency;
 /** 总线频率 */
-+ (NSUInteger)busFrequency;
++ (NSUInteger)ddy_BusFrequency;
 /** ram大小 */
-+ (NSUInteger)ramSize;
++ (NSUInteger)ddy_RamSize;
 /** CPU型号 */
-+ (NSUInteger)cpuNumber;
++ (NSUInteger)ddy_CPUNumber;
 /** 总内存 */
-+ (NSUInteger)totalMemory;
++ (NSUInteger)ddy_TotalMemory;
 /** 用户内存 */
-+ (NSUInteger)userMemory;
++ (NSUInteger)ddy_UserMemory;
 
 @end
