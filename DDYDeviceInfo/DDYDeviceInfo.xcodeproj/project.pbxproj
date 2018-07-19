@@ -1,0 +1,370 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		A481C8FB20FF38B80052691B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C8F420FF38B80052691B /* AppDelegate.m */; };
+		A481C8FC20FF38B80052691B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A481C8F520FF38B80052691B /* LaunchScreen.storyboard */; };
+		A481C8FD20FF38B80052691B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A481C8F720FF38B80052691B /* Info.plist */; };
+		A481C8FE20FF38B80052691B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C8F820FF38B80052691B /* main.m */; };
+		A481C8FF20FF38B80052691B /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C8FA20FF38B80052691B /* ViewController.m */; };
+		A481C90320FF3F640052691B /* DDYBatteryInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C90220FF3F640052691B /* DDYBatteryInfo.m */; };
+		A481C90721001FD30052691B /* DDYSystemInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = A481C90621001FD30052691B /* DDYSystemInfo.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A481C8DC20FF37BC0052691B /* DDYDeviceInfo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DDYDeviceInfo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A481C8F320FF38B80052691B /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		A481C8F420FF38B80052691B /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		A481C8F620FF38B80052691B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A481C8F720FF38B80052691B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A481C8F820FF38B80052691B /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		A481C8F920FF38B80052691B /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		A481C8FA20FF38B80052691B /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		A481C90120FF3F640052691B /* DDYBatteryInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDYBatteryInfo.h; sourceTree = "<group>"; };
+		A481C90220FF3F640052691B /* DDYBatteryInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDYBatteryInfo.m; sourceTree = "<group>"; };
+		A481C90521001FD30052691B /* DDYSystemInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDYSystemInfo.h; sourceTree = "<group>"; };
+		A481C90621001FD30052691B /* DDYSystemInfo.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DDYSystemInfo.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		A481C8D920FF37BC0052691B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		A481C8D320FF37BC0052691B = {
+			isa = PBXGroup;
+			children = (
+				A481C8DE20FF37BC0052691B /* DDYDeviceInfo */,
+				A481C8DD20FF37BC0052691B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		A481C8DD20FF37BC0052691B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A481C8DC20FF37BC0052691B /* DDYDeviceInfo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A481C8DE20FF37BC0052691B /* DDYDeviceInfo */ = {
+			isa = PBXGroup;
+			children = (
+				A481C90421001FBC0052691B /* DDYSystemInfo */,
+				A481C90020FF38DC0052691B /* DDYBatteryInfo */,
+				A481C8F220FF38B80052691B /* System */,
+			);
+			path = DDYDeviceInfo;
+			sourceTree = "<group>";
+		};
+		A481C8F220FF38B80052691B /* System */ = {
+			isa = PBXGroup;
+			children = (
+				A481C8F320FF38B80052691B /* AppDelegate.h */,
+				A481C8F420FF38B80052691B /* AppDelegate.m */,
+				A481C8F520FF38B80052691B /* LaunchScreen.storyboard */,
+				A481C8F720FF38B80052691B /* Info.plist */,
+				A481C8F820FF38B80052691B /* main.m */,
+				A481C8F920FF38B80052691B /* ViewController.h */,
+				A481C8FA20FF38B80052691B /* ViewController.m */,
+			);
+			path = System;
+			sourceTree = "<group>";
+		};
+		A481C90020FF38DC0052691B /* DDYBatteryInfo */ = {
+			isa = PBXGroup;
+			children = (
+				A481C90120FF3F640052691B /* DDYBatteryInfo.h */,
+				A481C90220FF3F640052691B /* DDYBatteryInfo.m */,
+			);
+			path = DDYBatteryInfo;
+			sourceTree = "<group>";
+		};
+		A481C90421001FBC0052691B /* DDYSystemInfo */ = {
+			isa = PBXGroup;
+			children = (
+				A481C90521001FD30052691B /* DDYSystemInfo.h */,
+				A481C90621001FD30052691B /* DDYSystemInfo.m */,
+			);
+			path = DDYSystemInfo;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		A481C8DB20FF37BC0052691B /* DDYDeviceInfo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A481C8EF20FF37C40052691B /* Build configuration list for PBXNativeTarget "DDYDeviceInfo" */;
+			buildPhases = (
+				A481C8D820FF37BC0052691B /* Sources */,
+				A481C8D920FF37BC0052691B /* Frameworks */,
+				A481C8DA20FF37BC0052691B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DDYDeviceInfo;
+			productName = DDYDeviceInfo;
+			productReference = A481C8DC20FF37BC0052691B /* DDYDeviceInfo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A481C8D420FF37BC0052691B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0930;
+				ORGANIZATIONNAME = com.smartmesh;
+				TargetAttributes = {
+					A481C8DB20FF37BC0052691B = {
+						CreatedOnToolsVersion = 9.3;
+					};
+				};
+			};
+			buildConfigurationList = A481C8D720FF37BC0052691B /* Build configuration list for PBXProject "DDYDeviceInfo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = A481C8D320FF37BC0052691B;
+			productRefGroup = A481C8DD20FF37BC0052691B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				A481C8DB20FF37BC0052691B /* DDYDeviceInfo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		A481C8DA20FF37BC0052691B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A481C8FD20FF38B80052691B /* Info.plist in Resources */,
+				A481C8FC20FF38B80052691B /* LaunchScreen.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		A481C8D820FF37BC0052691B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A481C8FF20FF38B80052691B /* ViewController.m in Sources */,
+				A481C90721001FD30052691B /* DDYSystemInfo.m in Sources */,
+				A481C8FE20FF38B80052691B /* main.m in Sources */,
+				A481C8FB20FF38B80052691B /* AppDelegate.m in Sources */,
+				A481C90320FF3F640052691B /* DDYBatteryInfo.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		A481C8F520FF38B80052691B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A481C8F620FF38B80052691B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		A481C8ED20FF37C40052691B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		A481C8EE20FF37C40052691B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		A481C8F020FF37C40052691B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 23JJ7VRKJT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DDYDeviceInfo/OtherWrite/PrivateAPI\\ ",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DDYDeviceInfo/System/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartmesh.smart2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A481C8F120FF37C40052691B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 23JJ7VRKJT;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/DDYDeviceInfo/OtherWrite/PrivateAPI\\ ",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/DDYDeviceInfo/System/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.smartmesh.smart2;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		A481C8D720FF37BC0052691B /* Build configuration list for PBXProject "DDYDeviceInfo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A481C8ED20FF37C40052691B /* Debug */,
+				A481C8EE20FF37C40052691B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A481C8EF20FF37C40052691B /* Build configuration list for PBXNativeTarget "DDYDeviceInfo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A481C8F020FF37C40052691B /* Debug */,
+				A481C8F120FF37C40052691B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A481C8D420FF37BC0052691B /* Project object */;
+}
