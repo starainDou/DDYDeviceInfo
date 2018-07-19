@@ -43,6 +43,8 @@
 + (NSString *)ddy_WANIPAddress;
 /** 获取外网ip地址 */
 + (NSString *)ddy_InternetIPAddress;
+/** 是否被破解 */
++ (BOOL)ddy_Cracked;
 /** 判断是否越狱 */
 + (BOOL)ddy_JailBreak;
 /** 判断是否插入sim卡 */
@@ -51,5 +53,18 @@
 + (long)ddy_BootTime;
 /** 用户是否使用代理 */
 + (BOOL)ddy_IsViaProxy;
+
+/** CPU频率 */
++ (NSUInteger)cpuFrequency;
+/** 总线频率 */
++ (NSUInteger)busFrequency;
+/** ram大小 */
++ (NSUInteger)ramSize;
+/** CPU型号 */
++ (NSUInteger)cpuNumber;
+/** 总内存 */
++ (NSUInteger)totalMemory;
+/** 用户内存 */
++ (NSUInteger)userMemory;
 
 @end
