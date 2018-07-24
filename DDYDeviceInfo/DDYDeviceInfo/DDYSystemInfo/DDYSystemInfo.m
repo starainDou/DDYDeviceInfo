@@ -12,6 +12,8 @@
 #import <sys/stat.h> // 越狱
 #import <dlfcn.h>
 #include <sys/sysctl.h> // CPU
+#import <mach/mach.h>
+#import <objc/runtime.h> // 获取精准电量
 
 @implementation DDYSystemInfo
 
@@ -155,6 +157,31 @@
 + (float)ddy_BatteryLevel {
     [UIDevice currentDevice].batteryMonitoringEnabled = YES;
     return [[UIDevice currentDevice] batteryLevel];
+}
+
+#pragma mark Runtime获取精准电量
+- (int)ddy_BatteryLevelByRuntime {
+    if ([UIApplication sharedApplication].applicationState != UIApplicationStateBackground) {
+        Ivar ivar = class_getInstanceVariable([[UIApplication sharedApplication] class],"_statusBar");
+        id status = object_getIvar([UIApplication sharedApplication], ivar);
+        for (id aview in [status subviews]) {
+            int batteryLevel = 0;
+            for (id bview in [aview subviews]) {
+                if ([NSStringFromClass([bview class]) caseInsensitiveCompare:@"UIStatusBarBatteryItemView"] == NSOrderedSame) {
+                    Ivar ivar =  class_getInstanceVariable([bview class],"_capacity");
+                    if(ivar) {
+                        batteryLevel = ((int (*)(id, Ivar))object_getIvar)(bview, ivar);
+                        if (batteryLevel > 0 && batteryLevel <= 100) {
+                            return batteryLevel;
+                        } else {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }
 
 #pragma mark 获取电池的状态
@@ -490,7 +517,6 @@
 + (NSUInteger)ddy_UserMemory {
     return [self getSysInfo:HW_USERMEM];
 }
-
 
 #pragma mark 内存使用状况
 + (float)ddy_MemoryUsage {

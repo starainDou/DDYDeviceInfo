@@ -29,6 +29,8 @@
 + (long)ddy_DiskFreeSize;
 /** 获取电量 */
 + (float)ddy_BatteryLevel;
+/** Runtime获取精准电量 */
+- (int)ddy_BatteryLevelByRuntime;
 /** 获取电池的状态 */
 + (NSString *)ddy_BatteryState;
 /** 屏幕亮度 */
