@@ -66,5 +66,11 @@
 + (NSUInteger)ddy_TotalMemory;
 /** 用户内存 */
 + (NSUInteger)ddy_UserMemory;
+/** 内存使用状况 */
++ (float)ddy_MemoryUsage;
+/** CPU使用情况(包含监控线程) 和xCode不一致 */
++ (float)ddy_CPUUsage;
+/** CPU使用情况(排除监控线程) 和xCode不一致 */
++ (float)ddy_CPUUsage2;
 
 @end
