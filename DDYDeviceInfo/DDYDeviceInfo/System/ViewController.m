@@ -63,7 +63,7 @@
 }
 
 - (void)handleInfo {
-    NSLog(@"%@", [DDYSystemInfo ddy_DeviceModel]);
+    NSLog(@"%@", [DDYSystemInfo ddy_DeviceName]);
     NSLog(@"iOS %@", [DDYSystemInfo ddy_SystemVersion]);
     NSLog(@"%@", [DDYSystemInfo ddy_JailBreak] ? @"是" : @"否");
     

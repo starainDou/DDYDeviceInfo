@@ -19,8 +19,14 @@
 + (NSString *)ddy_UUID;
 /** 系统版本 */
 + (NSString *)ddy_SystemVersion;
-/** 获取设备型号 */
-+ (NSString *)ddy_DeviceModel;
+/** 获取系统型号 */
++ (NSString *)ddy_SystemInfo;
+/** 获取系统更多设计信息 */
++ (NSDictionary *)ddy_SystemMoreInfo;
+/** 获取设备颜色 私有慎用 设备颜色key:@"DeviceColor" 外壳颜色key:@"DeviceEnclosureColor" */
++ (NSString *)ddy_DeviceColor:(NSString *)key;
+/** 是否可以打电话 */
++ (BOOL)ddy_CanMakePhoneCall;
 /** 获取设备名字 */
 + (NSString *)ddy_DeviceName;
 /** 获取磁盘大小 */
@@ -37,14 +43,22 @@
 + (float)ddy_ScreenBrightness;
 /** 音量大小 */
 + (float)ddy_DeviceVolume;
-/** wifi名称 */
+/** wifi SSID */
 + (NSString *)ddy_WifiSSID;
+/**获取WiFi 信息，返回的字典中包含了WiFi的名称、路由器的Mac地址、还有一个Data(转换成字符串打印出来是wifi名称) */
+- (NSDictionary *)ddy_WifiFirmwareInfo;
 /** 网络制式 */
 + (NSString *)ddy_NetCarrier;
 /** 获取内网ip地址 */
 + (NSString *)ddy_WANIPAddress;
 /** 获取外网ip地址 */
 + (NSString *)ddy_InternetIPAddress;
+/** 获取MAC地址(已被苹果废掉,每次都变化) */
++ (NSString *)ddy_MacAddress;
+/** 获取广播地址，内网地址，子网掩码，端口 */
+- (NSMutableDictionary *)ddy_WifiModoInfo;
+/** 获取网关信息 */
+- (NSString *)ddy_WiFiGatewayInfo;
 /** 是否被破解 */
 + (BOOL)ddy_Cracked;
 /** 判断是否越狱 */
@@ -60,7 +74,7 @@
 + (NSUInteger)ddy_CPUFrequency;
 /** 总线频率 */
 + (NSUInteger)ddy_BusFrequency;
-/** ram大小 */
+/** 主存大小 */
 + (NSUInteger)ddy_RamSize;
 /** CPU型号 */
 + (NSUInteger)ddy_CPUNumber;
@@ -76,3 +90,4 @@
 + (float)ddy_CPUUsage2;
 
 @end
+// https://github.com/PengfeiWang666/iOS-getClientInfo

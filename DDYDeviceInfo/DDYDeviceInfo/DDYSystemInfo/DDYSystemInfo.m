@@ -9,11 +9,20 @@
 #import <sys/ioctl.h> // ip 地址
 #import <net/if.h>
 #import <arpa/inet.h>
+#import <ifaddrs.h> // 广播地址，子网掩码，端口
+#import <netinet/in.h>
+#import "DDYWifiGateway.h" // wifi路由信息
 #import <sys/stat.h> // 越狱
 #import <dlfcn.h>
 #include <sys/sysctl.h> // CPU
 #import <mach/mach.h>
 #import <objc/runtime.h> // 获取精准电量
+
+// 下面是获取mac地址需要导入的头文件
+#include <sys/socket.h> // Per msqr
+//#include <sys/sysctl.h>
+//#include <net/if.h>
+#include <net/if_dl.h>
 
 @implementation DDYSystemInfo
 
@@ -38,6 +47,9 @@
 }
 
 #pragma mark 获取IDFA
+// 广告位标识符：同一个设备上的所有App都会取到相同的值，是苹果专门给各广告提供商用来追踪用户而设的
+// 用户可以在 设置 ->隐私 -> 广告追踪里重置此id的值，或限制此id的使用，所以此id有可能会取不到值
+// Apple默认是允许追踪的，而一般用户都不知道有这么个设置，所以基本上用来监测推广效果，是绰绰有余了
 + (NSString *)ddy_IDFA {
     return [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
 }
@@ -57,81 +69,294 @@
     return [[UIDevice currentDevice] systemVersion];
 }
 
-#pragma mark 获取设备型号
-+ (NSString *)ddy_DeviceModel {
+#pragma mark 获取设备型号 #import <sys/utsname.h>
++ (NSString *)ddy_SystemInfo {
     struct utsname systemInfo;
     uname(&systemInfo);
     NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
     
-    if ([deviceString isEqualToString:@"iPhone3,1"])    return @"iPhone 4";
-    if ([deviceString isEqualToString:@"iPhone3,2"])    return @"iPhone 4";
-    if ([deviceString isEqualToString:@"iPhone3,3"])    return @"iPhone 4";
-    if ([deviceString isEqualToString:@"iPhone4,1"])    return @"iPhone 4S";
-    if ([deviceString isEqualToString:@"iPhone5,1"])    return @"iPhone 5";
-    if ([deviceString isEqualToString:@"iPhone5,2"])    return @"iPhone 5 (GSM+CDMA)";
-    if ([deviceString isEqualToString:@"iPhone5,3"])    return @"iPhone 5c (GSM)";
-    if ([deviceString isEqualToString:@"iPhone5,4"])    return @"iPhone 5c (GSM+CDMA)";
-    if ([deviceString isEqualToString:@"iPhone6,1"])    return @"iPhone 5s (GSM)";
-    if ([deviceString isEqualToString:@"iPhone6,2"])    return @"iPhone 5s (GSM+CDMA)";
-    if ([deviceString isEqualToString:@"iPhone7,1"])    return @"iPhone 6 Plus";
-    if ([deviceString isEqualToString:@"iPhone7,2"])    return @"iPhone 6";
-    if ([deviceString isEqualToString:@"iPhone8,1"])    return @"iPhone 6s";
-    if ([deviceString isEqualToString:@"iPhone8,2"])    return @"iPhone 6s Plus";
-    if ([deviceString isEqualToString:@"iPhone8,4"])    return @"iPhone SE";
+    if ([deviceString isEqualToString:@"iPhone1,1"])  return @"iPhone 1G";
+    if ([deviceString isEqualToString:@"iPhone1,2"])  return @"iPhone 3G";
+    if ([deviceString isEqualToString:@"iPhone2,1"])  return @"iPhone 3GS";
+    if ([deviceString isEqualToString:@"iPhone3,1"])  return @"iPhone 4";
+    if ([deviceString isEqualToString:@"iPhone3,2"])  return @"iPhone 4";
+    if ([deviceString isEqualToString:@"iPhone3,3"])  return @"iPhone 4 (Verizon)";
+    if ([deviceString isEqualToString:@"iPhone4,1"])  return @"iPhone 4S";
+    if ([deviceString isEqualToString:@"iPhone5,1"])  return @"iPhone 5 (GSM)";
+    if ([deviceString isEqualToString:@"iPhone5,2"])  return @"iPhone 5 (GSM+CDMA)";
+    if ([deviceString isEqualToString:@"iPhone5,3"])  return @"iPhone 5c (GSM)";
+    if ([deviceString isEqualToString:@"iPhone5,4"])  return @"iPhone 5c (GSM+CDMA)";
+    if ([deviceString isEqualToString:@"iPhone6,1"])  return @"iPhone 5s (GSM)";
+    if ([deviceString isEqualToString:@"iPhone6,2"])  return @"iPhone 5s (GSM+CDMA)";
+    if ([deviceString isEqualToString:@"iPhone7,1"])  return @"iPhone 6 Plus";
+    if ([deviceString isEqualToString:@"iPhone7,2"])  return @"iPhone 6";
+    if ([deviceString isEqualToString:@"iPhone8,1"])  return @"iPhone 6s";
+    if ([deviceString isEqualToString:@"iPhone8,2"])  return @"iPhone 6s Plus";
+    if ([deviceString isEqualToString:@"iPhone8,4"])  return @"iPhone SE";
     // 日行两款手机型号均为日本独占，可能使用索尼FeliCa支付方案而不是苹果支付
-    if ([deviceString isEqualToString:@"iPhone9,1"])    return @"国行、日版、港行iPhone 7";
-    if ([deviceString isEqualToString:@"iPhone9,2"])    return @"港行、国行iPhone 7 Plus";
-    if ([deviceString isEqualToString:@"iPhone9,3"])    return @"美版、台版iPhone 7";
-    if ([deviceString isEqualToString:@"iPhone9,4"])    return @"美版、台版iPhone 7 Plus";
-    if([deviceString isEqualToString:@"iPhone10,1"])    return @"iPhone 8";
-    if([deviceString isEqualToString:@"iPhone10,4"])    return @"iPhone 8";
-    if([deviceString isEqualToString:@"iPhone10,2"])    return @"iPhone 8 Plus";
-    if([deviceString isEqualToString:@"iPhone10,5"])    return @"iPhone 8 Plus";
-    if([deviceString isEqualToString:@"iPhone10,3"])    return @"iPhone X";
-    if([deviceString isEqualToString:@"iPhone10,6"])    return @"iPhone X";
+    if ([deviceString isEqualToString:@"iPhone9,1"])  return @"iPhone 7 (国行/日版/港行)";
+    if ([deviceString isEqualToString:@"iPhone9,2"])  return @"iPhone 7 Plus (港行/国行)";
+    if ([deviceString isEqualToString:@"iPhone9,3"])  return @"iPhone 7 (美版/台版)";
+    if ([deviceString isEqualToString:@"iPhone9,4"])  return @"iPhone 7 Plus (美版/台版)";
+    if([deviceString isEqualToString:@"iPhone10,1"])  return @"iPhone 8 (国行/日版)";
+    if([deviceString isEqualToString:@"iPhone10,2"])  return @"iPhone 8 Plus (国行/日版)";
+    if([deviceString isEqualToString:@"iPhone10,3"])  return @"iPhone X (国行/日版)";
+    if([deviceString isEqualToString:@"iPhone10,4"])  return @"iPhone 8 (Global)";
+    if([deviceString isEqualToString:@"iPhone10,5"])  return @"iPhone 8 Plus (Global)";
+    if([deviceString isEqualToString:@"iPhone10,6"])  return @"iPhone X (Global)";
     
-    if ([deviceString isEqualToString:@"iPod1,1"])      return @"iPod Touch 1G";
-    if ([deviceString isEqualToString:@"iPod2,1"])      return @"iPod Touch 2G";
-    if ([deviceString isEqualToString:@"iPod3,1"])      return @"iPod Touch 3G";
-    if ([deviceString isEqualToString:@"iPod4,1"])      return @"iPod Touch 4G";
-    if ([deviceString isEqualToString:@"iPod5,1"])      return @"iPod Touch (5 Gen)";
+    if ([deviceString isEqualToString:@"iPod1,1"])    return @"iPod Touch 1G";
+    if ([deviceString isEqualToString:@"iPod2,1"])    return @"iPod Touch 2G";
+    if ([deviceString isEqualToString:@"iPod3,1"])    return @"iPod Touch 3G";
+    if ([deviceString isEqualToString:@"iPod4,1"])    return @"iPod Touch 4G";
+    if ([deviceString isEqualToString:@"iPod5,1"])    return @"iPod Touch 5Gen)";
+    if ([deviceString isEqualToString:@"iPod7,1"])    return @"iPod Touch 6G";
     
-    if ([deviceString isEqualToString:@"iPad1,1"])      return @"iPad";
-    if ([deviceString isEqualToString:@"iPad1,2"])      return @"iPad 3G";
-    if ([deviceString isEqualToString:@"iPad2,1"])      return @"iPad 2 (WiFi)";
-    if ([deviceString isEqualToString:@"iPad2,2"])      return @"iPad 2";
-    if ([deviceString isEqualToString:@"iPad2,3"])      return @"iPad 2 (CDMA)";
-    if ([deviceString isEqualToString:@"iPad2,4"])      return @"iPad 2";
-    if ([deviceString isEqualToString:@"iPad2,5"])      return @"iPad Mini (WiFi)";
-    if ([deviceString isEqualToString:@"iPad2,6"])      return @"iPad Mini";
-    if ([deviceString isEqualToString:@"iPad2,7"])      return @"iPad Mini (GSM+CDMA)";
-    if ([deviceString isEqualToString:@"iPad3,1"])      return @"iPad 3 (WiFi)";
-    if ([deviceString isEqualToString:@"iPad3,2"])      return @"iPad 3 (GSM+CDMA)";
-    if ([deviceString isEqualToString:@"iPad3,3"])      return @"iPad 3";
-    if ([deviceString isEqualToString:@"iPad3,4"])      return @"iPad 4 (WiFi)";
-    if ([deviceString isEqualToString:@"iPad3,5"])      return @"iPad 4";
-    if ([deviceString isEqualToString:@"iPad3,6"])      return @"iPad 4 (GSM+CDMA)";
-    if ([deviceString isEqualToString:@"iPad4,1"])      return @"iPad Air (WiFi)";
-    if ([deviceString isEqualToString:@"iPad4,2"])      return @"iPad Air (Cellular)";
-    if ([deviceString isEqualToString:@"iPad4,4"])      return @"iPad Mini 2 (WiFi)";
-    if ([deviceString isEqualToString:@"iPad4,5"])      return @"iPad Mini 2 (Cellular)";
-    if ([deviceString isEqualToString:@"iPad4,6"])      return @"iPad Mini 2";
-    if ([deviceString isEqualToString:@"iPad4,7"])      return @"iPad Mini 3";
-    if ([deviceString isEqualToString:@"iPad4,8"])      return @"iPad Mini 3";
-    if ([deviceString isEqualToString:@"iPad4,9"])      return @"iPad Mini 3";
-    if ([deviceString isEqualToString:@"iPad5,1"])      return @"iPad Mini 4 (WiFi)";
-    if ([deviceString isEqualToString:@"iPad5,2"])      return @"iPad Mini 4 (LTE)";
-    if ([deviceString isEqualToString:@"iPad5,3"])      return @"iPad Air 2";
-    if ([deviceString isEqualToString:@"iPad5,4"])      return @"iPad Air 2";
-    if ([deviceString isEqualToString:@"iPad6,3"])      return @"iPad Pro 9.7";
-    if ([deviceString isEqualToString:@"iPad6,4"])      return @"iPad Pro 9.7";
-    if ([deviceString isEqualToString:@"iPad6,7"])      return @"iPad Pro 12.9";
-    if ([deviceString isEqualToString:@"iPad6,8"])      return @"iPad Pro 12.9";
+    if ([deviceString isEqualToString:@"iPad1,1"])    return @"iPad 1";
+    if ([deviceString isEqualToString:@"iPad1,2"])    return @"iPad 3G";
+    if ([deviceString isEqualToString:@"iPad2,1"])    return @"iPad 2 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad2,2"])    return @"iPad 2 (GSM)";
+    if ([deviceString isEqualToString:@"iPad2,3"])    return @"iPad 2 (CDMA)";
+    if ([deviceString isEqualToString:@"iPad2,4"])    return @"iPad 2 (CDMA)";
+    if ([deviceString isEqualToString:@"iPad2,5"])    return @"iPad Mini (WiFi)";
+    if ([deviceString isEqualToString:@"iPad2,6"])    return @"iPad Mini (GSM)";
+    if ([deviceString isEqualToString:@"iPad2,7"])    return @"iPad Mini (GSM+CDMA)";
+    if ([deviceString isEqualToString:@"iPad3,1"])    return @"iPad 3 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad3,2"])    return @"iPad 3 (GSM+CDMA)";
+    if ([deviceString isEqualToString:@"iPad3,3"])    return @"iPad 3 (CDMA)";
+    if ([deviceString isEqualToString:@"iPad3,4"])    return @"iPad 4 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad3,5"])    return @"iPad 4 (GSM)";
+    if ([deviceString isEqualToString:@"iPad3,6"])    return @"iPad 4 (GSM+CDMA)";
+    if ([deviceString isEqualToString:@"iPad4,1"])    return @"iPad Air (WiFi)";
+    if ([deviceString isEqualToString:@"iPad4,2"])    return @"iPad Air (Cellular)";
+    if ([deviceString isEqualToString:@"iPad4,4"])    return @"iPad Mini 2 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad4,5"])    return @"iPad Mini 2 (Cellular)";
+    if ([deviceString isEqualToString:@"iPad4,6"])    return @"iPad Mini 2";
+    if ([deviceString isEqualToString:@"iPad4,7"])    return @"iPad Mini 3 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad4,8"])    return @"iPad Mini 3 (Cellular)";
+    if ([deviceString isEqualToString:@"iPad4,9"])    return @"iPad Mini 3 (Cellular)";
+    if ([deviceString isEqualToString:@"iPad5,1"])    return @"iPad Mini 4 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad5,2"])    return @"iPad Mini 4 (LTE/Cellular)";
+    if ([deviceString isEqualToString:@"iPad5,3"])    return @"iPad Air 2 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad5,4"])    return @"iPad Air 2 (Cellular)";
+    if ([deviceString isEqualToString:@"iPad6,3"])    return @"iPad Pro 9.7 inch (WiFi)";
+    if ([deviceString isEqualToString:@"iPad6,4"])    return @"iPad Pro 9.7 inch (Cellular)";
+    if ([deviceString isEqualToString:@"iPad6,7"])    return @"iPad Pro 12.9 inch (WiFi)";
+    if ([deviceString isEqualToString:@"iPad6,8"])    return @"iPad Pro 12.9 inch (Cellular)";
     
-    if ([deviceString isEqualToString:@"i386"])         return @"Simulator";
-    if ([deviceString isEqualToString:@"x86_64"])       return @"Simulator";
+    if ([deviceString isEqualToString:@"iPad6,11"])   return @"iPad 5 (WiFi)";
+    if ([deviceString isEqualToString:@"iPad6,12"])   return @"iPad 5 (Cellular)";
+    if ([deviceString isEqualToString:@"iPad7,1"])    return @"iPad Pro 12.9 inch (2 generation)(WiFi)";
+    if ([deviceString isEqualToString:@"iPad7,2"])    return @"iPad Pro 12.9 inch (2 generation)(Cellular)";
+    if ([deviceString isEqualToString:@"iPad7,3"])    return @"iPad Pro 10.5 inch (WiFi)";
+    if ([deviceString isEqualToString:@"iPad7,4"])    return @"iPad Pro 10.5 inch (Cellular)";
     
-    return deviceString;
+    if ([deviceString isEqualToString:@"AppleTV2,1"]) return @"appleTV2";
+    if ([deviceString isEqualToString:@"AppleTV3,1"]) return @"appleTV3";
+    if ([deviceString isEqualToString:@"AppleTV3,2"]) return @"appleTV3";
+    if ([deviceString isEqualToString:@"AppleTV5,3"]) return @"appleTV4";
+    
+    if ([deviceString isEqualToString:@"i386"])       return @"Simulator (i386)";
+    if ([deviceString isEqualToString:@"x86_64"])     return @"Simulator (x86_64)";
+    
+    return @"Unknown";
+}
+
+#pragma mark 获取系统更多设计信息
++ (NSDictionary *)ddy_SystemMoreInfo {
+    // Capacity:电池设计容量 mA 毫安
+    // Voltage:电池设计电压 V伏特
+    // Frequency:CPU频率
+    // CPU:CPU名称
+    // initialFirmware:最低可支持的固件系统
+    // latestFirmware:最高可升级的固件系统
+    
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *deviceString = [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+    
+    if ([deviceString isEqualToString:@"iPhone1,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone1,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone2,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone3,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone3,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone3,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone4,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone5,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone5,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone5,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone5,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone6,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone6,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone7,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone7,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone8,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone8,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone8,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    // 日行两款手机型号均为日本独占，可能使用索尼FeliCa支付方案而不是苹果支付
+    if ([deviceString isEqualToString:@"iPhone9,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone9,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone9,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPhone9,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if([deviceString isEqualToString:@"iPhone10,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if([deviceString isEqualToString:@"iPhone10,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if([deviceString isEqualToString:@"iPhone10,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if([deviceString isEqualToString:@"iPhone10,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if([deviceString isEqualToString:@"iPhone10,5"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if([deviceString isEqualToString:@"iPhone10,6"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    
+    if ([deviceString isEqualToString:@"iPod1,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPod2,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPod3,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPod4,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPod5,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPod7,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    
+    if ([deviceString isEqualToString:@"iPad1,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad1,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad2,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad2,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad2,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad2,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad2,5"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad2,6"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad2,7"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad3,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad3,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad3,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad3,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad3,5"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad3,6"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,5"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,6"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,7"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,8"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad4,9"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad5,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad5,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad5,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad5,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad6,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad6,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad6,7"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad6,8"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    
+    if ([deviceString isEqualToString:@"iPad6,11"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad6,12"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad7,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad7,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad7,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"iPad7,4"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    
+    if ([deviceString isEqualToString:@"AppleTV2,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"AppleTV3,1"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"AppleTV3,2"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"AppleTV5,3"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    
+    if ([deviceString isEqualToString:@"i386"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    if ([deviceString isEqualToString:@"x86_64"])
+        return @{@"Capacity":@"1400", @"Voltage":@"", @"Frequency":@"", @"CPU":@"", @"initialFirmware":@"", @"latestFirmware":@""};
+    return @{@"Capacity":@"0", @"Voltage":@"0", @"Frequency":@"0", @"CPU":@"0", @"initialFirmware":@"0", @"latestFirmware":@"0"};
+}
+
+#pragma mark 获取设备颜色 私有慎用
++ (NSString *)ddy_DeviceColor:(NSString *)key {
+    UIDevice *device = [UIDevice currentDevice];
+    SEL selector = NSSelectorFromString(@"deviceInfoForKey:");
+    if (![device respondsToSelector:selector]) {
+        selector = NSSelectorFromString(@"_deviceInfoForKey:");
+    }
+    if ([device respondsToSelector:selector]) {
+        // 消除警告“performSelector may cause a leak because its selector is unknown”
+        IMP imp = [device methodForSelector:selector];
+        NSString * (*func)(id, SEL, NSString *) = (void *)imp;
+        return func(device, selector, key);
+    }
+    return @"unKnown";
+}
+
+#pragma mark 是否可以打电话
++ (BOOL)ddy_CanMakePhoneCall {
+    return [[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"tel://"]];
 }
 
 #pragma mark 获取设备名字
@@ -213,17 +438,28 @@
 #pragma mark wifi名称
 + (NSString *)ddy_WifiSSID {
     NSArray *ifs = (__bridge id)CNCopySupportedInterfaces();
+    if (!ifs) return nil;
     
-    id info = nil;
+    NSDictionary *info = nil;
     for (NSString *ifnam in ifs) {
-        info = (__bridge id)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
-        if (info && [info count]) {
-            break;
-        }
+        info = (__bridge_transfer NSDictionary *)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
+        if (info && [info count]) { break; }
     }
-    NSDictionary *dctySSID = (NSDictionary *)info;
     
-    return [dctySSID objectForKey:@"SSID"];
+    return [info objectForKey:@"SSID"];
+}
+
+#pragma mark 获取WiFi 信息，返回的字典中包含了WiFi的名称、路由器的Mac地址、还有一个Data(转换成字符串打印出来是wifi名称)
+- (NSDictionary *)ddy_WifiFirmwareInfo {
+    NSArray *ifs = (__bridge_transfer NSArray *)CNCopySupportedInterfaces();
+    if (!ifs) return nil;
+    
+    NSDictionary *info = nil;
+    for (NSString *ifnam in ifs) {
+        info = (__bridge_transfer NSDictionary *)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifnam);
+        if (info && [info count]) { break; }
+    }
+    return info;
 }
 
 #pragma mark 网络制式
@@ -308,6 +544,144 @@
         return dict[@"cip"];
     }
     return nil;
+}
+
+#pragma mark 获取MAC地址(已被苹果废掉,每次都变化)
++ (NSString *)ddy_MacAddress {
+    int                    mib[6];
+    size_t                len;
+    char                *buf;
+    unsigned char        *ptr;
+    struct if_msghdr    *ifm;
+    struct sockaddr_dl    *sdl;
+    
+    mib[0] = CTL_NET;
+    mib[1] = AF_ROUTE;
+    mib[2] = 0;
+    mib[3] = AF_LINK;
+    mib[4] = NET_RT_IFLIST;
+    
+    if ((mib[5] = if_nametoindex("en0")) == 0) {
+        NSLog(@"Error: if_nametoindex error/n");
+        return NULL;
+    }
+    
+    if (sysctl(mib, 6, NULL, &len, NULL, 0) < 0) {
+        NSLog(@"Error: sysctl, take 1/n");
+        return NULL;
+    }
+    
+    if ((buf = malloc(len)) == NULL) {
+        NSLog(@"Could not allocate memory. error!/n");
+        return NULL;
+    }
+    
+    if (sysctl(mib, 6, buf, &len, NULL, 0) < 0) {
+        NSLog(@"Error: sysctl, take 2");
+        return NULL;
+    }
+    
+    ifm = (struct if_msghdr *)buf;
+    sdl = (struct sockaddr_dl *)(ifm + 1);
+    ptr = (unsigned char *)LLADDR(sdl);
+    
+    NSString *outstring = [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x", *ptr, *(ptr+1), *(ptr+2), *(ptr+3), *(ptr+4), *(ptr+5)];
+    free(buf);
+    
+    return [outstring uppercaseString];
+}
+
+#pragma makr 获取广播地址，内网地址，子网掩码，端口
+- (NSMutableDictionary *)ddy_WifiModoInfo {
+    
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    struct ifaddrs *interfaces = NULL;
+    struct ifaddrs *temp_addr = NULL;
+    int success = 0;
+    
+    // retrieve the current interfaces - returns 0 on success
+    success = getifaddrs(&interfaces);
+    if (success == 0) {
+        // Loop through linked list of interfaces
+        temp_addr = interfaces;
+        
+        while(temp_addr != NULL) {
+            if(temp_addr->ifa_addr->sa_family == AF_INET) {
+                // Check if interface is en0 which is the wifi connection on the iPhone
+                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                    //----192.168.1.255 广播地址
+                    NSString *broadcast = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_dstaddr)->sin_addr)];
+                    if (broadcast) {
+                        [dict setObject:broadcast forKey:@"broadcast"];
+                    }
+                    //--192.168.1.106 本机地址
+                    NSString *localIp = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+                    if (localIp) {
+                        [dict setObject:localIp forKey:@"localIp"];
+                    }
+                    //--255.255.255.0 子网掩码地址
+                    NSString *netmask = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_netmask)->sin_addr)];
+                    if (netmask) {
+                        [dict setObject:netmask forKey:@"netmask"];
+                    }
+                    //--en0 端口地址
+                    NSString *interface = [NSString stringWithUTF8String:temp_addr->ifa_name];
+                    if (interface) {
+                        [dict setObject:interface forKey:@"interface"];
+                    }
+                    return dict;
+                }
+            }
+            temp_addr = temp_addr->ifa_next;
+        }
+    }
+    freeifaddrs(interfaces);
+    return dict;
+}
+
+#pragma mark 获取网关信息
+- (NSString *)ddy_WiFiGatewayInfo {
+    
+    NSString *address = @"error";
+    struct ifaddrs *interfaces = NULL;
+    struct ifaddrs *temp_addr = NULL;
+    int success = 0;
+    
+    success = getifaddrs(&interfaces);
+    if (success == 0) {
+        temp_addr = interfaces;
+   
+        while(temp_addr != NULL) {
+    
+            if(temp_addr->ifa_addr->sa_family == AF_INET) {
+                
+                if([[NSString stringWithUTF8String:temp_addr->ifa_name] isEqualToString:@"en0"]) {
+                    
+                    address = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+                    
+                    //routerIP----192.168.1.255 广播地址
+                    NSLog(@"broadcast address--%@",[NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_dstaddr)->sin_addr)]);
+                    //--192.168.1.106 本机地址
+                    NSLog(@"local device ip--%@",[NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)]);
+                    //--255.255.255.0 子网掩码地址
+                    NSLog(@"netmask--%@",[NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_netmask)->sin_addr)]);
+                    //--en0 端口地址
+                    NSLog(@"interface--%@",[NSString stringWithUTF8String:temp_addr->ifa_name]);
+                }
+            }
+            temp_addr = temp_addr->ifa_next;
+        }
+    }
+
+    freeifaddrs(interfaces);
+    
+    in_addr_t i = inet_addr([address cStringUsingEncoding:NSUTF8StringEncoding]);
+    in_addr_t* x = &i;
+    
+    unsigned char *s = getdefaultgateway(x);
+    NSString *ip=[NSString stringWithFormat:@"%d.%d.%d.%d",s[0],s[1],s[2],s[3]];
+    free(s);
+    return ip;
 }
 
 #pragma mark 是否被破解

@@ -18,6 +18,7 @@
 		A481C950210036430052691B /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A481C94F210036420052691B /* Security.framework */; };
 		A481C952210036480052691B /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A481C951210036480052691B /* SystemConfiguration.framework */; };
 		A481C954210036FD0052691B /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A481C953210036FD0052691B /* IOKit.framework */; };
+		A4C673252109D8290059E1DF /* DDYWifiGateway.c in Sources */ = {isa = PBXBuildFile; fileRef = A4C673242109D8290059E1DF /* DDYWifiGateway.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -64,6 +65,8 @@
 		A481C94F210036420052691B /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		A481C951210036480052691B /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		A481C953210036FD0052691B /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IOKit.framework; sourceTree = "<group>"; };
+		A4C673232109D8290059E1DF /* DDYWifiGateway.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DDYWifiGateway.h; sourceTree = "<group>"; };
+		A4C673242109D8290059E1DF /* DDYWifiGateway.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = DDYWifiGateway.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -136,6 +139,8 @@
 			children = (
 				A481C90521001FD30052691B /* DDYSystemInfo.h */,
 				A481C90621001FD30052691B /* DDYSystemInfo.m */,
+				A4C673232109D8290059E1DF /* DDYWifiGateway.h */,
+				A4C673242109D8290059E1DF /* DDYWifiGateway.c */,
 			);
 			path = DDYSystemInfo;
 			sourceTree = "<group>";
@@ -292,6 +297,7 @@
 				A481C90721001FD30052691B /* DDYSystemInfo.m in Sources */,
 				A481C8FE20FF38B80052691B /* main.m in Sources */,
 				A481C8FB20FF38B80052691B /* AppDelegate.m in Sources */,
+				A4C673252109D8290059E1DF /* DDYWifiGateway.c in Sources */,
 				A481C90320FF3F640052691B /* DDYBatteryInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
